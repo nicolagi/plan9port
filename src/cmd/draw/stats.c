@@ -109,7 +109,7 @@ Image	*cols[Ncolor][3];
 Graph	*graph;
 Machine	*mach;
 Font		*mediumfont;
-char		*fontname;
+char		*fontname = nil;
 char		*mysysname;
 char		argchars[] = "8bcCeEfiIlmnsw";
 int		pids[1024];
@@ -183,12 +183,7 @@ mkcol(int i, int c0, int c1, int c2)
 void
 colinit(void)
 {
-	if(fontname)
-		mediumfont = openfont(display, fontname);
-	if(mediumfont == nil)
-		mediumfont = openfont(display, "/lib/font/bit/pelm/latin1.8.font");
-	if(mediumfont == nil)
-		mediumfont = font;
+	mediumfont = font;
 
 	/* Peach */
 	mkcol(0, 0xFFAAAAFF, 0xFFAAAAFF, 0xBB5D5DFF);
@@ -805,7 +800,7 @@ threadmain(int argc, char *argv[])
 		for(j=0; j<ngraph; j++)
 			graph[i*ngraph+j].mach = &mach[i];
 
-	if(initdraw(0, nil, "stats") < 0)
+	if(initdraw(0, fontname, "stats") < 0)
 		sysfatal("initdraw: %r");
 	colinit();
 	if((mc = initmouse(nil, screen)) == nil)
