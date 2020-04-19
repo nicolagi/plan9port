@@ -567,7 +567,6 @@
 2656  wr          ♖	white chess rook
 2657  wb          ♗	white chess bishop
 2658  wn          ♘	white chess knight
-2659  wp          ♙	white chess pawn
 265A  bk          ♚	black chess king
 265B  bq          ♛	black chess queen
 265C  br          ♜	black chess rook
@@ -579,9 +578,12 @@
 266d  Mb          ♭	music flat
 266e  M#          ♮	music natural
 266f  Ms          ♯	music sharp
+2705  cm          ✅ checkmark
 300a  <+          《	left double angle bracket
 300b  +>          》	right double angle bracket
 F015  ZA          	raw alt (plan 9 specific)
 F016  ZS          	raw shift (plan 9 specific)
 F017  ZC          	raw ctl (plan 9 specific)
 1F602 :,          😂 face with tears of joy
+1F44D ok          👍 thumbs up
+1F6A7 wp          🚧 construction (wp = work in progress)
