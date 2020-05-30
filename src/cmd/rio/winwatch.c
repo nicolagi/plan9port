@@ -482,7 +482,7 @@ main(int argc, char **argv)
 
 	/* moved up from original winwatch.c for p9p because there can be only one but we want to restart when needed */
 	einit(Emouse | Ekeyboard);
-	Etimer = etimer(0, 1000);
+	Etimer = etimer(0, 10000);
 
 	dpy = XOpenDisplay("");
 	if(dpy==nil)
@@ -499,8 +499,10 @@ main(int argc, char **argv)
 	/* reentry point upon X server errors */
 	setjmp(savebuf);
 
+	long lastupdate, now;
 	refreshwin();
 	redraw(screen, 1);
+	time(&lastupdate);
 	for(;;){
 		switch(eread(Emouse|Ekeyboard|Etimer, &e)){
 		case Ekeyboard:
@@ -512,8 +514,11 @@ main(int argc, char **argv)
 				click(e.mouse);
 			/* fall through  */
 		default:		/* Etimer */
-			refreshwin();
-			redraw(screen, 0);
+			if (time(&now)-lastupdate > 1){
+				refreshwin();
+				redraw(screen, 0);
+				lastupdate = now;
+			}
 			break;
 		}
 	}

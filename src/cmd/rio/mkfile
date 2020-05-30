@@ -39,4 +39,4 @@ xevents.$O printevent.$O: printevent.h
 error.$O: showevent/ShowEvent.c
 
 $O.xshove: xshove.$O
-	$LD -o $O.xshove xshove.$O -lX11
+	$LD -o $O.xshove xshove.$O $LDFLAGS
