@@ -167,14 +167,37 @@ xnet(int first)
 	Bprint(&bout, "etheroutb %lld %d\n", totoub, n*1000);
 }
 
+int
+iscpu(char *s)
+{
+	if(*s++ != 'c' || *s++ != 'p' || *s++ != 'u' || *s == 0)
+		return 0;
+	while(*s != 0){
+		if(*s<'0' || *s>'9')
+			return 0;
+		s++;
+	}
+	return 1;
+}
+
 void
 xstat(int first)
 {
 	static int fd = -1;
+	static int numcpus = 0;
 	int i;
 
 	if(first){
 		fd = open("/proc/stat", OREAD);
+		readfile(fd);
+		for(i=0; i<nline; i++){
+			tokens(i);
+			numcpus += iscpu(tok[0]);
+		}
+		if(numcpus<=0){
+			fprint(2, "could not get number of cpus, assuming 1\n");
+			numcpus = 1;
+		}
 		return;
 	}
 
@@ -184,10 +207,10 @@ xstat(int first)
 		if(ntok < 2)
 			continue;
 		if(strcmp(tok[0], "cpu") == 0 && ntok >= 5){
-			Bprint(&bout, "user %lld 100\n", atoll(tok[1]));
-			Bprint(&bout, "sys %lld 100\n", atoll(tok[3]));
-			Bprint(&bout, "cpu %lld 100\n", atoll(tok[1])+atoll(tok[3]));
-			Bprint(&bout, "idle %lld 100\n", atoll(tok[4]));
+			Bprint(&bout, "user %lld 100\n", atoll(tok[1]) / numcpus);
+			Bprint(&bout, "sys %lld 100\n", atoll(tok[3]) / numcpus);
+			Bprint(&bout, "cpu %lld 100\n", (atoll(tok[1])+atoll(tok[3])) / numcpus);
+			Bprint(&bout, "idle %lld 100\n", atoll(tok[4]) / numcpus);
 		}
 	/*
 		if(strcmp(tok[0], "page") == 0 && ntok >= 3){
