@@ -221,16 +221,11 @@ post9p(int fd, char *name)
 		for(i=3; i<20; i++)
 			close(i);
 		if(doauth > 0)
-			execlp("9pserve", "9pserve", "-u",
-				"-M",
-					smprint("%d", msize),
-				"-A",
-					aname,
-					smprint("%d", afid),
-				s, (char*)0);
+			execlp("9pserve", "9pserve", "-M", smprint("%d", msize), "-A", aname, smprint("%d", afid), s, (char*)0);
+		else if(doauth < 0)
+			execlp("9pserve", "9pserve", "-n" , s, (char*)0);
 		else
-			execlp("9pserve", "9pserve",
-				doauth < 0 ? "-nu" : "-u", s, (char*)0);
+			execlp("9pserve", "9pserve", s, (char*)0);
 		fprint(2, "exec 9pserve: %r\n");
 		_exits("exec");
 	default:

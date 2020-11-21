@@ -35,7 +35,7 @@ post9pservice(int fd, char *name, char *mtpt)
 			dup(fd, 1);
 			for(i=3; i<20; i++)
 				close(i);
-			execlp("9pserve", "9pserve", "-u", addr, (char*)0);
+			execlp("9pserve", "9pserve", addr, (char*)0);
 			fprint(2, "exec 9pserve: %r\n");
 			_exits("exec");
 		}

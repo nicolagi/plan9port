@@ -81,7 +81,6 @@ char *xaname;
 char *addr;
 int afd;
 char adir[40];
-int isunix;
 Queue *outq;
 Queue *inq;
 int verbose = 0;
@@ -183,9 +182,6 @@ threadmain(int argc, char **argv)
 		break;
 	case 'v':
 		verbose++;
-		break;
-	case 'u':
-		isunix++;
 		break;
 	case 'l':
 		logging++;
