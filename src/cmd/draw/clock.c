@@ -42,11 +42,13 @@ redraw(Image *screen)
 	rad -= 8;
 
 	draw(screen, screen->r, back, nil, ZP);
-	for(i=0; i<12; i++)
+	for(i=0; i<60; i++){
 		fillellipse(screen, circlept(c, rad, i*(360/12)), 2, 2, dots, ZP);
+		fillellipse(screen, circlept(c, rad, i*(360/60)), 1, 1, dots, ZP);
+	}
 
-	line(screen, c, circlept(c, (rad*3)/4, angmin), 0, 0, 1, minhand, ZP);
-	line(screen, c, circlept(c, rad/2, anghr), 0, 0, 1, hrhand, ZP);
+	line(screen, c, circlept(c, (rad*4)/5, angmin), 0, 0, 1, minhand, ZP);
+	line(screen, c, circlept(c, (rad*4)/5, anghr), 0, 0, 1, hrhand, ZP);
 
 	flushimage(display, 1);
 }
@@ -76,8 +78,8 @@ main(int argc, char **argv)
 		sysfatal("initdraw failed");
 	back = allocimagemix(display, DPalebluegreen, DWhite);
 
-	hrhand = allocimage(display, Rect(0,0,1,1), CMAP8, 1, DDarkblue);
-	minhand = allocimage(display, Rect(0,0,1,1), CMAP8, 1, DPaleblue);
+	hrhand = allocimage(display, Rect(0,0,1,1), CMAP8, 1, DRed);
+	minhand = allocimage(display, Rect(0,0,1,1), CMAP8, 1, DCyan);
 	dots = allocimage(display, Rect(0,0,1,1), CMAP8, 1, DBlue);
 	redraw(screen);
 
